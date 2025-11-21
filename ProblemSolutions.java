@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Jesus Ortega / 002
  *
  *   This java file contains the problem solutions for the methods selectionSort,
  *   mergeSortDivisibleByKFirst, asteroidsDestroyed, and numRescueCanoes methods.
@@ -36,11 +36,25 @@ public class ProblemSolutions {
 
         int n = values.length;
 
-        for (int i = 0; i < n - 1; i++) {
+        for (int i = 0; i < n - 1; i++) { // One by one move boundary of unsorted subarray
 
-            // YOU CODE GOES HERE -- COMPLETE THE INNER LOOP OF THIS
-            // "SELECTION SORT" ALGORITHM.
-            // DO NOT FORGET TO ADD YOUR NAME / SECTION ABOVE
+            int selectedIndex = i;
+            for (int j = i + 1; j < n; j++) { // Find the minimum/maximum element in unsorted array
+                if (ascending) { // Ascending sort
+                    if (values[j] < values[selectedIndex]) {
+                        selectedIndex = j; 
+                    }
+                } else {
+                    if (values[j] > values[selectedIndex]) {
+                        selectedIndex = j;
+                    }
+                }
+            }
+            if (selectedIndex != i) { // Swap the found minimum/maximum element with the first element
+                int tmp = values[i];
+                values[i] = values[selectedIndex];
+                values[selectedIndex] = tmp;
+            }
 
         }
 
