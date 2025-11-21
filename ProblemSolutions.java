@@ -100,8 +100,17 @@ public class ProblemSolutions {
         mergeDivisbleByKFirst(values, k, left, mid, right);
     }
 
-    /*
+    /**
      * The merging portion of the merge sort, divisible by k first
+     * 
+     * @param arr       - input array to sort per definition above
+     * @param k         - value k, such that all numbers divisible by this value are first
+     * @param left      - left index of the sub-array
+     * @param mid       - middle index of the sub-array
+     * @param right     - right index of the sub-array
+     * @return          - void
+     * precondition:  arr[left..mid] and arr[mid+1..right] are sorted
+     * postcondition: arr[left..right] is sorted with numbers divisible by k first
      */
 
     private void mergeDivisbleByKFirst(int arr[], int k, int left, int mid, int right)
@@ -115,6 +124,35 @@ public class ProblemSolutions {
         // ALLOCATES AUXILIARY DATA STRUCTURES (TEMPORARY ARRAYS). IT WILL BE EASIER
         // TO CODE WITH A SPACE COMPLEXITY OF O(N LOG N), WHICH IS FINE FOR PURPOSES
         // OF THIS PROGRAMMING EXERCISES.
+ 
+        int n = right - left + 1; // size of the temporary array
+        int[] temp = new int[n]; // temporary array to hold merged result
+        int i = left, j = mid + 1, t = 0; // initial indexes of first and second subarrays
+
+        while (i <= mid && j <= right) { // merge process
+            boolean aDiv = arr[i] % k == 0;
+            boolean bDiv = arr[j] % k == 0;
+
+            if (aDiv && !bDiv) {
+                temp[t++] = arr[i++];
+            } else if (!aDiv && bDiv) {
+                temp[t++] = arr[j++];
+            } else if (aDiv && bDiv) {
+                // both divisible -> keep stability by taking from left first
+                temp[t++] = arr[i++];
+            } else {
+                // both not divisible -> normal ascending order
+                if (arr[i] <= arr[j]) temp[t++] = arr[i++];
+                else temp[t++] = arr[j++];
+            }
+        }
+
+        while (i <= mid) temp[t++] = arr[i++]; // copy remaining elements from left subarray
+        while (j <= right) temp[t++] = arr[j++]; // copy remaining elements from right subarray
+
+        for (int p = 0; p < n; p++) {
+            arr[left + p] = temp[p];
+        }
 
         return;
 
@@ -168,9 +206,17 @@ public class ProblemSolutions {
 
     public static boolean asteroidsDestroyed(int mass, int[] asteroids) {
 
-        // YOUR CODE GOES HERE, CONSIDER USING ARRAYS.SORT()
-
-        return false;
+        Arrays.sort(asteroids); // Sort asteroids in ascending order
+        
+        for (int asteroid : asteroids) { // Iterate through each asteroid
+            if (mass >= asteroid) {// If planet can destroy asteroid
+            mass += asteroid;
+            } else {
+            return false;
+            }
+        }
+        
+        return true;
 
     }
 
