@@ -252,9 +252,20 @@ public class ProblemSolutions {
 
     public static int numRescueSleds(int[] people, int limit) {
 
-        // YOUR CODE GOES HERE, CONSIDER USING ARRAYS.SORT
-
-        return -1;
+        if (people == null || people.length == 0) return 0; // Handle edge case
+        Arrays.sort(people); // Sort people by weight
+        int left = 0, right = people.length - 1; // Two pointers
+        int sleds = 0; // Count of sleds needed
+        while (left <= right) { // While there are people left to assign to sleds
+            if (people[left] + people[right] <= limit) {
+                left++;
+                right--;
+            } else {
+                right--;
+            }
+            sleds++;
+        }
+        return sleds;
 
     }
 
